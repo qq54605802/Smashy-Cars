@@ -1,3 +1,4 @@
 0 : Air -> an empty block.
-1 : Red Block
+1 : Hard Air -> an empty block and can’t place anything.
 2 : Blue Block
+3 : Red Block

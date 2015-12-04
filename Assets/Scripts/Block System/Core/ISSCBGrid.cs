@@ -22,7 +22,7 @@ public class ISSCBGrid : Object {
 
 		blocks [xIndex + yIndex + zIndex] = blockID;
 
-		return previousID;
+		return previousID; 
 	}
 
 	public int GetBlock(ISSCBlockVector position){
