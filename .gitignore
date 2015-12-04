@@ -1,0 +1,50 @@
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+ExportedObj/
+obj/
+*.svd
+*.userprefs
+*.csproj
+/*.csproj
+*.pidb
+*.suo
+*.sln
+/*.sln
+*.user
+*.unityproj
+*.booproj
+*.tmp
+*.user
+*.userprefs
+
+# Unity3D generated meta files
+*.pidb.meta
+
+# Unity3D Generated File On Crash Reports
+sysinfo.txt
+
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+
+# ============================ #
+# Visual Studio Debugging Tool #
+# ============================ #
+UnityVS/
+/UnityVS.meta
+Assets/KTK_Effect_Samples/
+Assets/KTK_Effect_Samples.meta
