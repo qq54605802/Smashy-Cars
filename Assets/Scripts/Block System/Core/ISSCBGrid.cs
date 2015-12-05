@@ -5,8 +5,12 @@ using System.Collections.Generic;
 public class ISSCBGrid : Object
 {
 	public static readonly float ISSC_BLOCK_UNIT_SIZE = 1;
-	protected int[] blocks;
+
 	public readonly ISSCBlockVector gridSize;
+
+	protected int[] blocks;
+	
+	int version = 0; //Store the version code
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ISSCBGrid"/> class with specific size.
@@ -92,6 +96,9 @@ public class ISSCBGrid : Object
 		int previousID = blocks [encodedIndex];
 		blocks [encodedIndex] = blockID;
 
+		//Update the version.
+		version++;
+
 		return previousID;
 	}
 
@@ -108,6 +115,16 @@ public class ISSCBGrid : Object
 		}
 	
 		return blocks [EncodeIndex (position)];
+	}
+
+	/// <summary>
+	/// Use this function to check if local version is update to date.
+	/// </summary>
+	/// <returns><c>-1</c> if current version is lastest version; otherwise, <c>the lastest version code</c>.</returns>
+	/// <param name="versionCode">Version code.</param>
+	public int IsLastestVersion(int versionCode){
+		if (version != versionCode) return version;
+		return -1;
 	}
 
 	public ISSCBlockVector GetCenterBlock ()

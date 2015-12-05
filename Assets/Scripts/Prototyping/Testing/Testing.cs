@@ -9,7 +9,7 @@ public class Testing : MonoBehaviour {
 		ISSCBGrid grid = new ISSCBGrid (new ISSCBlockVector(10,10,10));
 
 
-
+		/*
 		for (int i = 0; i < testNumber; i++) {
 
 			ISSCBlockVector pos = new ISSCBlockVector(Random.Range(0,9),Random.Range(0,9),Random.Range(0,9));
@@ -22,6 +22,6 @@ public class Testing : MonoBehaviour {
 				
 			}
 		}
-
+		*/
 	}
 }

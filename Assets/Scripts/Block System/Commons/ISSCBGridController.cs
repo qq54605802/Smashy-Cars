@@ -4,9 +4,11 @@ using System.Collections;
 public class ISSCBGridController : MonoBehaviour
 {
 
-
 	public ISSCBGridDescriber grid;
+
 	ISSCBGrid gridData;
+	int currentVersion = 0;
+
 	ISSCDBlocksList blockList;
 	GameObject[] blockObjects;
 
@@ -15,10 +17,11 @@ public class ISSCBGridController : MonoBehaviour
 		blockList = ISSCDBlocksList.LoadList ();
 		gridData = new ISSCBGrid (grid);
 
-		blockObjects = new GameObject[gridData.gridSize.Length ()];
+		int length = gridData.gridSize.Length ();
+		blockObjects = new GameObject[length];
 		
 //		ApplyDataToScene();
-		test ();
+		//test ();
 	}
 
 	public Vector3 BlockToWorldPosition ()
@@ -26,8 +29,18 @@ public class ISSCBGridController : MonoBehaviour
 		return Vector3.zero;
 	}
 
-	IEnumerator ApplyDataToScene ()
+	void Update(){
+		UpdateSceneWithData ();
+			testSetRandomBlock ();
+	}
+
+	void UpdateSceneWithData ()
 	{
+		int versionCheckResult = gridData.IsLastestVersion (currentVersion);
+		if(versionCheckResult == -1) return;
+
+		Debug.Log("New version detected, updating " + (versionCheckResult - currentVersion).ToString() + " changes...");
+
 		int[] data = gridData.GetRawData ();
 
 		for (int i = 0; i < data.Length; i++) {
@@ -39,9 +52,11 @@ public class ISSCBGridController : MonoBehaviour
 				ISObjectPoolManager.Unspawn (blockObjects [i]);
 			}
 
-			blockObjects [i] = ISObjectPoolManager.Spawn (blockList.blocks [data [i]].gameObject, ISSCBGrid.GridPositionToWorldPosition (b, transform.position), Quaternion.identity) as GameObject;
-			yield return null;
+			Vector3 position = ISSCBGrid.GridPositionToWorldPosition (b, transform.position);
+			blockObjects [i] = ISObjectPoolManager.Spawn (blockList.blocks [data [i]].gameObject, position, Quaternion.identity) as GameObject;
 		}
+
+		currentVersion = versionCheckResult;
 	}
 	
 	public void test ()
@@ -51,8 +66,11 @@ public class ISSCBGridController : MonoBehaviour
 		foreach (ISSCBlockVector bv in bvs) {
 			gridData.SetBlock (bv, Random.Range(2,6));
 		}
-		StartCoroutine (ApplyDataToScene ());
+		//StartCoroutine (ApplyDataToScene ());
 	}
-	
+
+	public void testSetRandomBlock(){
+		gridData.SetBlock (new ISSCBlockVector (Random.Range (0, 20), Random.Range (0, 20), Random.Range (0, 20)), Random.Range (0, 6));
+	}
 	
 }
