@@ -7,7 +7,7 @@ public class ISSCBGrid : Object
 
 	protected int[] blocks;
 
-	protected ISSCBlockVector gridSize;
+	public readonly ISSCBlockVector gridSize;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ISSCBGrid"/> class with specific size.
@@ -26,13 +26,24 @@ public class ISSCBGrid : Object
 
 		blocks = new int[gridSize.Length ()];
 	}
-	
+
+	public ISSCBGrid(ISSCBGridDescriber describer){
+		gridSize = describer.size;
+		
+		blocks = new int[gridSize.Length ()];
+		SetBlock (GetCenterBlock (), describer.centerBlock);
+	}
+
+	public int[] GetRawData(){
+		return blocks;
+	}
+
 	/// <summary>
 	/// Determines whether this position is available in grid.
 	/// </summary>
 	/// <returns><c>true</c> if this position is available; otherwise, <c>false</c>.</returns>
 	/// <param name="position">Position.</param>
-	public bool IsPositionInGrid (ISSCBlockVector position)
+	public bool IsBlockAvailable (ISSCBlockVector position)
 	{
 		bool result = ISMath.Contains (position.x, 0, gridSize.x)
 				|| ISMath.Contains (position.y, 0, gridSize.y)
@@ -41,12 +52,25 @@ public class ISSCBGrid : Object
 		return result;
 	}
 	
-	int EncodeIndex(ISSCBlockVector position){
+	public int EncodeIndex(ISSCBlockVector position){
 		int xIndex = position.x;
 		int yIndex = position.y * gridSize.x;
 		int zIndex = position.z * gridSize.x * gridSize.y;
 		return xIndex + yIndex + zIndex;
 	}
+
+
+	public ISSCBlockVector DecodeIndex(int id){
+
+		//int index = position.x + position.y * gridSize.x + position.z * gridSize.x * gridSize.y;
+
+		int z = id / ((gridSize.x-1) * (gridSize.y-1));
+		id -= z;
+		int y = id / (gridSize.x-1);
+		id -= y;
+		return new ISSCBlockVector (id, y, z);
+	}
+
 
 	/// <summary>
 	/// Set block's ID to change a block in specific position to another block.
@@ -57,7 +81,7 @@ public class ISSCBGrid : Object
 	public int SetBlock (ISSCBlockVector position, int blockID)
 	{
 		
-		if (!IsPositionInGrid (position)) {
+		if (!IsBlockAvailable (position)) {
 			Debug.LogError ("Block IO Exception: Out of range.");
 			return -1;
 		}
@@ -77,7 +101,7 @@ public class ISSCBGrid : Object
 	/// <param name="position">Position.</param>
 	public int GetBlock (ISSCBlockVector position)
 	{
-		if (!IsPositionInGrid (position)) {
+		if (!IsBlockAvailable (position)) {
 			Debug.LogError ("Block IO Exception: Out of range.");
 			return -1;
 		}
@@ -85,12 +109,16 @@ public class ISSCBGrid : Object
 		return blocks [EncodeIndex(position)];
 	}
 
+	public ISSCBlockVector GetCenterBlock(){
+		return new ISSCBlockVector (gridSize.x / 2, gridSize.y / 2, gridSize.y / 2);
+	}
+
 	/// <summary>
 	/// Check if the block is empty.
 	/// </summary>
 	/// <returns><c>true</c>, if blocks ID is 0, <c>false</c> otherwise.</returns>
 	/// <param name="position">Position.</param>
-	public bool BlockIsEmpty (ISSCBlockVector position)
+	public bool IsBlockEmpty (ISSCBlockVector position)
 	{
 		int blockID = GetBlock (position);
 
@@ -113,22 +141,22 @@ public class ISSCBGrid : Object
 		switch (direction) {
 		case BlockDirection.Up: 
 			tmpBV.y += 1;
-			return BlockIsEmpty (tmpBV);
+			return IsBlockEmpty (tmpBV);
 		case BlockDirection.Down: 
 			tmpBV.y -= 1;
-			return BlockIsEmpty (tmpBV);
+			return IsBlockEmpty (tmpBV);
 		case BlockDirection.Right: 
 			tmpBV.x += 1;
-			return BlockIsEmpty (tmpBV);
+			return IsBlockEmpty (tmpBV);
 		case BlockDirection.Left: 
 			tmpBV.x -= 1;
-			return BlockIsEmpty (tmpBV);
+			return IsBlockEmpty (tmpBV);
 		case BlockDirection.Forward: 
 			tmpBV.z += 1;
-			return BlockIsEmpty (tmpBV);
+			return IsBlockEmpty (tmpBV);
 		case BlockDirection.Back: 
 			tmpBV.z -= 1;
-			return BlockIsEmpty (tmpBV);
+			return IsBlockEmpty (tmpBV);
 		default :
 			return false;
 		}
@@ -185,7 +213,7 @@ public class ISSCBGrid : Object
 			for (int y = 0; y <ySize; y++) {
 				for (int x = 0; x <xSize; x++) {
 					loopTmpBV = new ISSCBlockVector (tmpBV.x + x, tmpBV.y + y, tmpBV.z + z);
-					if(IsPositionInGrid(loopTmpBV)){
+					if(IsBlockAvailable(loopTmpBV)){
 						l.Add(loopTmpBV);
 					}
 				}
@@ -202,7 +230,7 @@ public class ISSCBGrid : Object
 		ISSCBlockVector[] bvs = BlocksInRange (position1, position2);
 		List<ISSCBlockVector> l = new List<ISSCBlockVector> ();
 		foreach (ISSCBlockVector bv in bvs) {
-			if (ISSCBlockVector.Distance (position, bv) < radius && IsPositionInGrid(bv)) {
+			if (ISSCBlockVector.Distance (position, bv) < radius && IsBlockAvailable(bv)) {
 				l.Add (bv);
 			}
 		}
@@ -212,10 +240,11 @@ public class ISSCBGrid : Object
 	
 }
 
-//public enum SpaceType{
-//Cube,
-//Sphere
-//}
+[System.Serializable]
+public struct ISSCBGridDescriber{
+	public ISSCBlockVector size;
+	public int centerBlock;
+}
 
 public enum BlockDirection
 {
@@ -227,34 +256,3 @@ public enum BlockDirection
 	Back
 }
 
-[System.Serializable]
-public struct ISSCBlockVector
-{
-	public int x{ set; get; }
-
-	public int y{ set; get; }
-
-	public int z{ set; get; }
-
-	public ISSCBlockVector (int x, int y, int z)
-	{
-		this.x = x;
-		this.y = y;
-		this.z = z;
-	}
-
-	public int Length ()
-	{
-		return x * y * z;
-	}
-	
-	
-	//Caculate Distance Between Two Position !Important! Return Type Float;
-	static public float Distance (ISSCBlockVector position1, ISSCBlockVector position2)
-	{
-		float distancex = (float)(position1.x - position2.x);
-		float distancey = (float)(position1.y - position2.y);
-		float distancez = (float)(position1.z - position2.z);
-		return Mathf.Sqrt (Mathf.Pow (distancex, 2f) + Mathf.Pow (distancey, 2f) + Mathf.Pow (distancez, 2f));
-	}
-}

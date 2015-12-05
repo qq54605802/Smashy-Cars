@@ -13,12 +13,11 @@ public class Testing : MonoBehaviour {
 		for (int i = 0; i < testNumber; i++) {
 
 			ISSCBlockVector pos = new ISSCBlockVector(Random.Range(0,9),Random.Range(0,9),Random.Range(0,9));
-			int number2Set = Random.Range(0,10000);
-			grid.SetBlock(pos,number2Set);
-			if(grid.GetBlock(pos) == number2Set){
+			int id = grid.EncodeIndex(pos);
+			if(grid.DecodeIndex(id).x == pos.x && grid.DecodeIndex(id).y == pos.y && grid.DecodeIndex(id).z == pos.z){
 				Debug.Log("Test " + i.ToString() + "Passed !");
 			}else{
-				Debug.LogWarning("Test " + i.ToString() + "Failed...");
+				Debug.LogError("Test " + i.ToString() + "Failed..." + pos.x.ToString() + pos.y.ToString() + pos.z.ToString() + " " + grid.DecodeIndex(id).x.ToString() + grid.DecodeIndex(id).y.ToString() + grid.DecodeIndex(id).z.ToString());
 			}
 		}
 
