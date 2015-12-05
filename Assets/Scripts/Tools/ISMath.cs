@@ -3,8 +3,12 @@ using System.Collections;
 
 public class ISMath {
 
-	static public bool ContainsIn(float value, float a, float b){
+	static public bool Contains(float value, float a, float b){
 		return (value >= a) && (value <= b);
+	}
+
+	static public bool Contains(float value, ISRange range){
+		return ISMath.Contains(value,range.min,range.max);
 	}
 
 	static public Vector2 RotateVector(Vector2 v, float angle){

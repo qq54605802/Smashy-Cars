@@ -1,4 +1,8 @@
+-1 : Block IO Exception: Out of range. 
+
+Above are error definitions 
+#####################################################################################
 0 : Air -> an empty block.
-1 : Hard Air -> an empty block and can’t place anything.
+1 : Hard Air -> an empty block but can’t place anything.
 2 : Blue Block
 3 : Red Block
