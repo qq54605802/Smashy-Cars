@@ -111,6 +111,7 @@ public class ISObjectPoolManager : MonoBehaviour {
 		
 		if(ID==-1){
 			Debug.Log("Object "+obj+" doesnt exsit in ObjectPoolManager List.");
+			ISObjectPoolManager.New(obj,1);
 			return (GameObject)Instantiate(obj, pos, rot);
 		}
 		else{

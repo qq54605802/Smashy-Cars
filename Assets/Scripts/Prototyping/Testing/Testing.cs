@@ -17,7 +17,9 @@ public class Testing : MonoBehaviour {
 			if(grid.DecodeIndex(id).x == pos.x && grid.DecodeIndex(id).y == pos.y && grid.DecodeIndex(id).z == pos.z){
 				Debug.Log("Test " + i.ToString() + "Passed !");
 			}else{
-				Debug.LogError("Test " + i.ToString() + "Failed..." + pos.x.ToString() + pos.y.ToString() + pos.z.ToString() + " " + grid.DecodeIndex(id).x.ToString() + grid.DecodeIndex(id).y.ToString() + grid.DecodeIndex(id).z.ToString());
+//				Debug.LogError("Test " + i.ToString() + "Failed..." + pos.x.ToString() + pos.y.ToString() + pos.z.ToString() + " " + grid.DecodeIndex(id).x.ToString() + grid.DecodeIndex(id).y.ToString() + grid.DecodeIndex(id).z.ToString());
+				Debug.Log(pos.x + " " + grid.DecodeIndex(id).x);
+				
 			}
 		}
 
