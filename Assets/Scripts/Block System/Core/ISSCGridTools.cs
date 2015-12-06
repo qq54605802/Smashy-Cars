@@ -22,11 +22,10 @@ public class ISSCGridTools
 		if (radius <= 0)
 			return false;
 			
-			ISSCBlockVector[] bvs = grid.BlocksInRange(origin,radius);
-			foreach(ISSCBlockVector bv in bvs){
+		ISSCBlockVector[] bvs = grid.BlocksInRange(origin,radius);
+		foreach(ISSCBlockVector bv in bvs){
 			grid.SetBlock(bv,blockID);
-			}
-			//
+		}
 			
 		return true;
 
@@ -46,7 +45,6 @@ public class ISSCGridTools
 		foreach(ISSCBlockVector bv in bvs){
 			grid.SetBlock(bv,blockID);
 		}
-		//
 		
 		
 		return true;
@@ -80,7 +78,6 @@ public class ISSCGridTools
 		foreach(ISSCBlockVector bv in bvs){
 			grid.SetBlock(bv,blockID);
 		}
-		//
 		
 		return true;
 
