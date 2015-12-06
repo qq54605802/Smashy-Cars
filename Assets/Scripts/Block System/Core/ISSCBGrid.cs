@@ -5,11 +5,8 @@ using System.Collections.Generic;
 public class ISSCBGrid : Object
 {
 	public static readonly float ISSC_BLOCK_UNIT_SIZE = 1;
-
 	public readonly ISSCBlockVector gridSize;
-
 	protected int[] blocks;
-	
 	int version = 0; //Store the version code
 
 	/// <summary>
@@ -51,8 +48,8 @@ public class ISSCBGrid : Object
 	public bool IsBlockAvailable (ISSCBlockVector position)
 	{
 		bool result = ISMath.Contains (position.x, 0, gridSize.x)
-			|| ISMath.Contains (position.y, 0, gridSize.y)
-			|| ISMath.Contains (position.y, 0, gridSize.y);
+			&& ISMath.Contains (position.y, 0, gridSize.y)
+			&& ISMath.Contains (position.z, 0, gridSize.z);
 
 		return result;
 	}
@@ -122,8 +119,10 @@ public class ISSCBGrid : Object
 	/// </summary>
 	/// <returns><c>-1</c> if current version is lastest version; otherwise, <c>the lastest version code</c>.</returns>
 	/// <param name="versionCode">Version code.</param>
-	public int IsLastestVersion(int versionCode){
-		if (version != versionCode) return version;
+	public int IsLastestVersion (int versionCode)
+	{
+		if (version != versionCode)
+			return version;
 		return -1;
 	}
 
@@ -181,9 +180,11 @@ public class ISSCBGrid : Object
 		}
 	}
 	
-	public bool IsBlockVisiable(ISSCBlockVector position){
+	public bool IsBlockVisiable (ISSCBlockVector position)
+	{
 		for (int i = 0; i < 6; i++) {
-			if(IsNearByEmpty(position,(BlockDirection)i)) return true;
+			if (IsNearByEmpty (position, (BlockDirection)i))
+				return true;
 		}
 		return false;
 	}
@@ -256,6 +257,25 @@ public class ISSCBGrid : Object
 		List<ISSCBlockVector> l = new List<ISSCBlockVector> ();
 		foreach (ISSCBlockVector bv in bvs) {
 			if (ISSCBlockVector.Distance (position, bv) < radius && IsBlockAvailable (bv)) {
+				l.Add (bv);
+			}
+		}
+		return l.ToArray ();
+	}
+	
+	//-L 12062000
+	public ISSCBlockVector[] BlocksInRange (ISSCBlockVector position, float radius, float height)
+	{
+		ISSCBlockVector position1 = new ISSCBlockVector (position.x + (int)radius, position.y, position.z + (int)radius);
+		ISSCBlockVector position2 = new ISSCBlockVector (position.x - (int)radius, position.y + (int)height, position.z - (int)radius);
+		ISSCBlockVector[] bvs = BlocksInRange (position1, position2);
+		List<ISSCBlockVector> l = new List<ISSCBlockVector> ();
+		foreach (ISSCBlockVector bv in bvs) {
+			position.y = bv.y;
+			if (
+				
+				ISSCBlockVector.Distance (position, bv) < radius && IsBlockAvailable (bv)
+				) {
 				l.Add (bv);
 			}
 		}
