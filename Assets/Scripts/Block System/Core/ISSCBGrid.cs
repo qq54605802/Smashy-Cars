@@ -223,7 +223,7 @@ public class ISSCBGrid : Object
 	}
 	
 	//Get Blocks' Position In A Cube Zone Between Position1 And Position2
-	public ISSCBlockVector[] BlocksInRange (ISSCBlockVector position1, ISSCBlockVector position2)
+	public ISSCBlockVector[] BlocksOverlapCube (ISSCBlockVector position1, ISSCBlockVector position2)
 	{
 		ISSCBlockVector tmpBV = new ISSCBlockVector (Mathf.Min (position1.x, position2.x), Mathf.Min (position1.y, position2.y), Mathf.Min (position1.z, position2.z));
 		
@@ -249,11 +249,11 @@ public class ISSCBGrid : Object
 	}
 	
 	//Get Blocks' Position In A Sphere Zone Around Position In Radius
-	public ISSCBlockVector[] BlocksInRange (ISSCBlockVector position, float radius)
+	public ISSCBlockVector[] BlocksOverlapSphere (ISSCBlockVector position, float radius)
 	{
 		ISSCBlockVector position1 = new ISSCBlockVector (position.x - (int)radius, position.y - (int)radius, position.z - (int)radius);
 		ISSCBlockVector position2 = new ISSCBlockVector (position.x + (int)radius, position.y + (int)radius, position.z + (int)radius);
-		ISSCBlockVector[] bvs = BlocksInRange (position1, position2);
+		ISSCBlockVector[] bvs = BlocksOverlapCube (position1, position2);
 		List<ISSCBlockVector> l = new List<ISSCBlockVector> ();
 		foreach (ISSCBlockVector bv in bvs) {
 			if (ISSCBlockVector.Distance (position, bv) < radius && IsBlockAvailable (bv)) {
@@ -264,18 +264,15 @@ public class ISSCBGrid : Object
 	}
 	
 	//-L 12062000
-	public ISSCBlockVector[] BlocksInRange (ISSCBlockVector position, float radius, float height)
+	public ISSCBlockVector[] BlocksOverlapCylinder (ISSCBlockVector position, float radius, float height)
 	{
 		ISSCBlockVector position1 = new ISSCBlockVector (position.x + (int)radius, position.y, position.z + (int)radius);
 		ISSCBlockVector position2 = new ISSCBlockVector (position.x - (int)radius, position.y + (int)height, position.z - (int)radius);
-		ISSCBlockVector[] bvs = BlocksInRange (position1, position2);
+		ISSCBlockVector[] bvs = BlocksOverlapCube (position1, position2);
 		List<ISSCBlockVector> l = new List<ISSCBlockVector> ();
 		foreach (ISSCBlockVector bv in bvs) {
 			position.y = bv.y;
-			if (
-				
-				ISSCBlockVector.Distance (position, bv) < radius && IsBlockAvailable (bv)
-				) {
+			if (ISSCBlockVector.Distance (position, bv) < radius && IsBlockAvailable (bv)) {
 				l.Add (bv);
 			}
 		}
@@ -285,10 +282,9 @@ public class ISSCBGrid : Object
 	//-L 12051052
 	public static Vector3 GridPositionToWorldPosition (ISSCBlockVector position, Vector3 gridOriginInWorld)
 	{
-//		ISSC_BLOCK_UNIT_SIZE
 		return new Vector3 (gridOriginInWorld.x + position.x * ISSC_BLOCK_UNIT_SIZE,
-		gridOriginInWorld.y + position.y * ISSC_BLOCK_UNIT_SIZE,
-		gridOriginInWorld.z + position.z * ISSC_BLOCK_UNIT_SIZE);
+			gridOriginInWorld.y + position.y * ISSC_BLOCK_UNIT_SIZE,
+			gridOriginInWorld.z + position.z * ISSC_BLOCK_UNIT_SIZE);
 	
 	}
 }
@@ -302,11 +298,6 @@ public struct ISSCBGridDescriber
 
 public enum BlockDirection
 {
-	Up,
-	Down,
-	Right,
-	Left,
-	Forward,
-	Back
+	Up, Down, Right, Left, Forward, Back
 }
 

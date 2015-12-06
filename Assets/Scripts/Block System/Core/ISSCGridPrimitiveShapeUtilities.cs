@@ -22,7 +22,7 @@ public class ISSCGridPrimitiveShapeUtilities
 		}
 		if (radius <= 0) return;
 			
-		ISSCBlockVector[] bvs = grid.BlocksInRange(origin,radius);
+		ISSCBlockVector[] bvs = grid.BlocksOverlapSphere(origin,radius);
 		foreach(ISSCBlockVector bv in bvs){
 			grid.SetBlock(bv,fillWith);
 		}
@@ -33,7 +33,7 @@ public class ISSCGridPrimitiveShapeUtilities
 		if (!grid.IsBlockAvailable (from)) return;
 		if (!grid.IsBlockAvailable (to)) return;
 			
-		ISSCBlockVector[] bvs = grid.BlocksInRange(from,to);
+		ISSCBlockVector[] bvs = grid.BlocksOverlapCube(from,to);
 		foreach(ISSCBlockVector bv in bvs){
 			grid.SetBlock(bv,fillWith);
 		}
@@ -59,7 +59,7 @@ public class ISSCGridPrimitiveShapeUtilities
 		if (!grid.IsBlockAvailable (origin)) return;
 		if (radius <= 0 || height <= 0) return;
 			
-		ISSCBlockVector[] bvs = grid.BlocksInRange(origin,radius,height);
+		ISSCBlockVector[] bvs = grid.BlocksOverlapCylinder(origin,radius,height);
 		foreach(ISSCBlockVector bv in bvs){
 			grid.SetBlock(bv,fillWith);
 		}
