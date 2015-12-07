@@ -5,8 +5,11 @@ using System.Collections.Generic;
 public class ISSCBGrid : Object
 {
 	public static readonly float ISSC_BLOCK_UNIT_SIZE = 1;
+
 	public readonly ISSCBlockVector gridSize;
+
 	protected int[] blocks;
+
 	int version = 0; //Store the version code
 
 	/// <summary>
@@ -64,9 +67,6 @@ public class ISSCBGrid : Object
 
 	public ISSCBlockVector DecodeIndex (int id)
 	{
-
-		//int index = position.x + position.y * gridSize.x + position.z * gridSize.x * gridSize.y;
-
 		int z = id / (gridSize.x * gridSize.y);
 		int y = (id % (gridSize.x * gridSize.y)) / gridSize.x;
 		int x = (id % (gridSize.x * gridSize.y)) % gridSize.x / 1;

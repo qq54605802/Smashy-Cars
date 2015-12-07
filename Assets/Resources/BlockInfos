@@ -4,5 +4,8 @@ Above are error definitions
 #####################################################################################
 0 : Air -> an empty block.
 1 : Hard Air -> an empty block but can’t place anything.
-2 : Blue Block
-3 : Red Block
+2 : A Colorful Block
+3 : A Colorful Block
+4 : A Colorful Block
+5 : A Colorful Block
+6 : A Colorful Block

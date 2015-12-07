@@ -15,42 +15,49 @@ public struct ISSCBlockVector
 			return new ISSCBlockVector (0, 0, 0);
 		} 
 	}
+
 	//-Lag 12060414
 	static public ISSCBlockVector up { 
 		get {
 			return new ISSCBlockVector (0, 1, 0);
 		} 
 	}
+
 	//-Lag 12060414
 	static public ISSCBlockVector down { 
 		get {
 			return new ISSCBlockVector (0, -1, 0);
 		} 
 	}
+
 	//-Lag 12060414
 	static public ISSCBlockVector right { 
 		get {
 			return new ISSCBlockVector (1, 0, 0);
 		} 
 	}
+
 	//-Lag 12060414
 	static public ISSCBlockVector left { 
 		get {
 			return new ISSCBlockVector (-1, 0, 0);
 		} 
 	}
+
 	//-Lag 12060414
 	static public ISSCBlockVector forward { 
 		get {
 			return new ISSCBlockVector (0, 0, 1);
 		} 
 	}
+
 	//-Lag 12060414
 	static public ISSCBlockVector back { 
 		get {
 			return new ISSCBlockVector (0, 0, -1);
 		} 
 	}
+
 	//-Lag 12060414
 	static public ISSCBlockVector one { 
 		get {
@@ -115,17 +122,7 @@ public struct ISSCBlockVector
 		bv.z += i;
 		return bv;
 	}
-	
-	public static ISSCBlockVector operator + (ISSCBlockVector bv1, float i)
-	{
-		
-		ISSCBlockVector bv = new ISSCBlockVector (bv1);
-		bv.x = (int)((float)bv.x + i);
-		bv.y = (int)((float)bv.y + i);
-		bv.z = (int)((float)bv.z + i);
-		return bv;
-	}
-	
+
 	//-Lag 12060414
 	public static ISSCBlockVector operator - (ISSCBlockVector bv1, ISSCBlockVector bv2)
 	{
@@ -144,16 +141,6 @@ public struct ISSCBlockVector
 		bv.x -= i;
 		bv.y -= i;
 		bv.z -= i;
-		return bv;
-	}
-	
-	public static ISSCBlockVector operator - (ISSCBlockVector bv1, float i)
-	{
-		
-		ISSCBlockVector bv = new ISSCBlockVector (bv1);
-		bv.x = (int)((float)bv.x - i);
-		bv.y = (int)((float)bv.y - i);
-		bv.z = (int)((float)bv.z - i);
 		return bv;
 	}
 	
@@ -178,16 +165,6 @@ public struct ISSCBlockVector
 		return bv;
 	}
 	
-	public static ISSCBlockVector operator * (ISSCBlockVector bv1, float i)
-	{
-		
-		ISSCBlockVector bv = new ISSCBlockVector (bv1);
-		bv.x = (int)((float)bv.x * i);
-		bv.y = (int)((float)bv.y * i);
-		bv.z = (int)((float)bv.z * i);
-		return bv;
-	}
-	
 	//-Lag 12060414
 	public static ISSCBlockVector operator / (ISSCBlockVector bv1, ISSCBlockVector bv2)
 	{
@@ -206,16 +183,6 @@ public struct ISSCBlockVector
 		bv.x /= i;
 		bv.y /= i;
 		bv.z /= i;
-		return bv;
-	}
-	
-	public static ISSCBlockVector operator / (ISSCBlockVector bv1, float i)
-	{
-		
-		ISSCBlockVector bv = new ISSCBlockVector (bv1);
-		bv.x = (int)((float)bv.x / i);
-		bv.y = (int)((float)bv.y / i);
-		bv.z = (int)((float)bv.z / i);
 		return bv;
 	}
 }

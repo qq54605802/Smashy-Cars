@@ -21,17 +21,12 @@ public class ISSCBGridController : MonoBehaviour
 		blockObjects = new GameObject[length];
 		
 //		ApplyDataToScene();
-		test ();
-	}
-
-	public Vector3 BlockToWorldPosition ()
-	{
-		return Vector3.zero;
+		//test ();
 	}
 
 	void Update(){
 		UpdateSceneWithData ();
-		//testSetRandomBlock ();
+		testSetRandomBlock ();
 	}
 
 	void UpdateSceneWithData ()
@@ -62,13 +57,12 @@ public class ISSCBGridController : MonoBehaviour
 	public void test ()
 	{
 	
-		//ISSCGridPrimitiveShapeUtilities.CreateSphere (gridData, gridData.GetCenterBlock (), 2, 9);
-		ISSCGridPrimitiveShapeUtilities.CreateCylinder (gridData, 2, gridData.GetCenterBlock (), 5, 9);
-		//StartCoroutine (ApplyDataToScene ());
+		ISSCGridPrimitiveShapeUtilities.CreateSphere (gridData, gridData.GetCenterBlock (), 2, 9);
+		//ISSCGridPrimitiveShapeUtilities.CreateCylinder (gridData, 2, gridData.GetCenterBlock (), 5, 9);
 	}
 
 	public void testSetRandomBlock(){
-		//gridData.SetBlock (new ISSCBlockVector (Random.Range (0, 20), Random.Range (0, 20), Random.Range (0, 20)), Random.Range (0, 6));
+		gridData.SetBlock (new ISSCBlockVector (Random.Range (0, 20), Random.Range (0, 20), Random.Range (0, 20)), Random.Range (0, 6));
 	
 	}
 	
