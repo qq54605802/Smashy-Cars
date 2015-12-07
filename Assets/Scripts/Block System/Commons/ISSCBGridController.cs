@@ -17,19 +17,10 @@ public class ISSCBGridController : MonoBehaviour
 	void Start ()
 	{
 		blockList = ISSCDBlocksList.LoadList ();
-//		gridData = new ISSCBGrid (grid);
-		gridData = Load();
-		
-		
-		
+		gridData = new ISSCBGrid (grid);
 		int length = gridData.gridSize.Length ();
 		blockObjects = new GameObject[length];
 		versionDataCache = new int[length];
-
-//		ApplyDataToScene();
-//		test ();
-//		Debug.Log(json);
-
 	}
 
 	void Update(){
@@ -40,17 +31,10 @@ public class ISSCBGridController : MonoBehaviour
 	public void SwitchData(ISSCBGrid newDataSet){
 		gridData = newDataSet;
 		currentVersion = 0;
+		versionDataCache = new int[newDataSet.GetRawData().Length];
 		UpdateSceneWithData ();
 
 		Debug.Log("data switched...");
-
-//		testSetRandomBlock ();
-		if(Input.GetKeyDown(KeyCode.Space)){
-		Save();
-		}
-//		if(Input.GetKeyDown(KeyCode.Backspace)){
-//		Load();
-//		}
 	}
 	
 	void Save(){

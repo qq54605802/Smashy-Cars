@@ -30,10 +30,10 @@ public class ISMath {
 		values [1] = d.y;
 		values [2] = d.z;
 
-		float max = Mathf.Infinity;
+		float max = Mathf.NegativeInfinity;
 		int maxID = -1;
 		for (int i = 0; i < values.Length; i++) {
-			if(Mathf.Abs(values[i]) < max){
+			if(Mathf.Abs(values[i]) > max){
 				max = values[i];
 				maxID = i;
 			}
