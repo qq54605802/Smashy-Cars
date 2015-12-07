@@ -35,9 +35,9 @@ public class ISSCBEditorCore : MonoBehaviour {
 	public void UpdateBlockForWorldPosition(Vector3 hitPoint, Vector3 hittedBlockPosition){
 		Vector3 dir = hitPoint - hittedBlockPosition;
 		Debug.Log (dir);
-		//dir = ISMath.Clip2NormalDirection (dir);
+		dir = ISMath.Clip2NormalDirection (dir);
 		Debug.Log (dir);
-		ISSCBlockVector bv = ISSCBGrid.WorldPositionToGridPosition (hitPoint + dir.normalized,moniter.transform.position);
+		ISSCBlockVector bv = ISSCBGrid.WorldPositionToGridPosition (hittedBlockPosition + dir.normalized,moniter.transform.position);
 		//bv = data.ClosestEmptyBlock (bv);
 
 		data.SetBlock(bv, currentFillingBlock);

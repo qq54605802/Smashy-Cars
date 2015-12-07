@@ -31,16 +31,18 @@ public class ISMath {
 		values [2] = d.z;
 
 		float max = Mathf.NegativeInfinity;
+		float maxRaw = 0;
 		int maxID = -1;
 		for (int i = 0; i < values.Length; i++) {
 			if(Mathf.Abs(values[i]) > max){
-				max = values[i];
+				max = Mathf.Abs(values[i]);
+				maxRaw = values[i];
 				maxID = i;
 			}
 			values[i] = 0;
 		}
 
-		values [maxID] = max;
+		values [maxID] = maxRaw;
 
 		d.x = values [0];
 		d.y = values [1];
