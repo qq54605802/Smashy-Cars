@@ -145,7 +145,7 @@ public class ISSCBGrid : Object
 				throw new System.Exception ("Block position out of grid.");
 		} catch (System.Exception e) {
 			Debug.Log (e.Message);
-			return false;
+			return true;
 		}
 
 

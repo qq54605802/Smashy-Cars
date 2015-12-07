@@ -8,6 +8,7 @@ public class ISSCBGridController : MonoBehaviour
 
 	ISSCBGrid gridData;
 	int currentVersion = 0;
+	int[] versionDataCache;
 
 	ISSCDBlocksList blockList;
 	GameObject[] blockObjects;
@@ -19,14 +20,15 @@ public class ISSCBGridController : MonoBehaviour
 
 		int length = gridData.gridSize.Length ();
 		blockObjects = new GameObject[length];
+		versionDataCache = new int[length];
 		
 //		ApplyDataToScene();
-//		test ();
+		test ();
 	}
 
 	void Update(){
 		UpdateSceneWithData ();
-//		testSetRandomBlock ();
+		testSetRandomBlock ();
 	}
 
 	void UpdateSceneWithData ()
@@ -39,6 +41,8 @@ public class ISSCBGridController : MonoBehaviour
 		int[] data = gridData.GetRawData ();
 
 		for (int i = 0; i < data.Length; i++) {
+			if(data[i] == versionDataCache[i]) continue;
+
 			ISSCBlockVector b = gridData.DecodeIndex(i);
 			if(data[i] <= 1) continue;
 			if(!gridData.IsBlockVisiable(b)) continue;
@@ -49,6 +53,8 @@ public class ISSCBGridController : MonoBehaviour
 
 			Vector3 position = ISSCBGrid.GridPositionToWorldPosition (b, transform.position);
 			blockObjects [i] = ISObjectPoolManager.Spawn (blockList.blocks [data [i]].gameObject, position, Quaternion.identity) as GameObject;
+
+			versionDataCache[i] = data[i];
 		}
 
 		currentVersion = versionCheckResult;
@@ -56,12 +62,12 @@ public class ISSCBGridController : MonoBehaviour
 	
 	public void test ()
 	{
-		ISSCGridPrimitiveShapeUtilities.CreateSphere (gridData, gridData.GetCenterBlock (), 2, 9);
+		ISSCGridPrimitiveShapeUtilities.CreateSphere (gridData, new ISSCBlockVector(0,0,0), 2, 9);
 //		ISSCGridPrimitiveShapeUtilities.CreateCylinder (gridData, 2, gridData.GetCenterBlock (), 5, 9);
 	}
 
 	public void testSetRandomBlock(){
-//		gridData.SetBlock (new ISSCBlockVector (Random.Range (0, 20), Random.Range (0, 20), Random.Range (0, 20)), Random.Range (0, 6));
+		gridData.SetBlock (new ISSCBlockVector (Random.Range (0, 20), Random.Range (0, 20), Random.Range (0, 20)), Random.Range (0, 6));
 	
 	}
 	
