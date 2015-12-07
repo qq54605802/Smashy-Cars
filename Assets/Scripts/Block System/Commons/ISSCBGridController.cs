@@ -17,11 +17,19 @@ public class ISSCBGridController : MonoBehaviour
 	void Start ()
 	{
 		blockList = ISSCDBlocksList.LoadList ();
-		gridData = new ISSCBGrid (grid);
-
+//		gridData = new ISSCBGrid (grid);
+		gridData = Load();
+		
+		
+		
 		int length = gridData.gridSize.Length ();
 		blockObjects = new GameObject[length];
 		versionDataCache = new int[length];
+
+//		ApplyDataToScene();
+//		test ();
+//		Debug.Log(json);
+
 	}
 
 	void Update(){
@@ -33,7 +41,31 @@ public class ISSCBGridController : MonoBehaviour
 		gridData = newDataSet;
 		currentVersion = 0;
 		UpdateSceneWithData ();
+
 		Debug.Log("data switched...");
+
+//		testSetRandomBlock ();
+		if(Input.GetKeyDown(KeyCode.Space)){
+		Save();
+		}
+//		if(Input.GetKeyDown(KeyCode.Backspace)){
+//		Load();
+//		}
+	}
+	
+	void Save(){
+		string[] dirs = {"Resources","SaveData"};
+		string str = ISSCDIO.GetDataPath(dirs);
+		string json = ISSCDIO.SavaAllModulesAsJsonString(gridData);
+		ISSCDIO.SaveDataIntoFile(str,"test03",json,"scb");
+	}
+	
+	ISSCBGrid Load(){
+		string[] dirs = {"Resources","SaveData"};
+		string str = ISSCDIO.GetDataPath(dirs);
+		Debug.Log(str);
+		return ISSCDIO.LoadFileToGrid(str,"test03.scb");
+
 	}
 
 	void UpdateSceneWithData ()
