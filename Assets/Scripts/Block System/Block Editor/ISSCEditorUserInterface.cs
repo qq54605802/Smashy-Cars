@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class ISSCEditorUserInterface : MonoBehaviour {
 
+	public InputField blockSelector;
 	public ISSCBEditorCore core;
 
 	public void FillingBlockSelectorValueChange(string newValue){
-		Debug.Log (newValue);
-		core.currentFillingBlock = int.Parse (newValue);
+		core.currentFillingBlock = int.Parse (blockSelector.text);
 	}
 
 	public void NewScene(){
