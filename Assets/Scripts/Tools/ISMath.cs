@@ -24,6 +24,31 @@ public class ISMath {
 		return v * f;
 	}
 
+	static public Vector3 Clip2NormalDirection(Vector3 d){
+		float[] values = new float[3];
+		values [0] = d.x;
+		values [1] = d.y;
+		values [2] = d.z;
+
+		float max = Mathf.Infinity;
+		int maxID = -1;
+		for (int i = 0; i < values.Length; i++) {
+			if(Mathf.Abs(values[i]) < max){
+				max = values[i];
+				maxID = i;
+			}
+			values[i] = 0;
+		}
+
+		values [maxID] = max;
+
+		d.x = values [0];
+		d.y = values [1];
+		d.z = values [2];
+
+		return d;
+	}
+
 	static public float Clamp(float v, ISRange range){
 		return Mathf.Clamp (v, range.min, range.max);
 	}

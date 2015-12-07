@@ -72,6 +72,13 @@ public struct ISSCBlockVector
 		this.y = y;
 		this.z = z;
 	}
+
+	public ISSCBlockVector (float x, float y, float z)
+	{
+		this.x = Mathf.RoundToInt(x);
+		this.y = Mathf.RoundToInt(y);
+		this.z = Mathf.RoundToInt(z);
+	}
 	
 	//-Lag 12060414
 	public ISSCBlockVector (ISSCBlockVector bv)
@@ -80,7 +87,12 @@ public struct ISSCBlockVector
 		this.y = bv.y;
 		this.z = bv.z;
 	}
-	
+
+	public override string ToString ()
+	{
+		return string.Format ("[ISSCBlockVector:{0}, {1}, {2}]",x,y,z);
+	}
+
 	public int Length ()
 	{
 		return x * y * z;

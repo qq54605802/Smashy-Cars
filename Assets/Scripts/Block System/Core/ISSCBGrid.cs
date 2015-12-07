@@ -222,7 +222,44 @@ public class ISSCBGrid : Object
 			break;
 		}
 	}
-	
+
+	public ISSCBlockVector GetBlockNearBy (ISSCBlockVector position, BlockDirection direction)
+	{
+		ISSCBlockVector tmpBV = new ISSCBlockVector ();
+		tmpBV = position;
+		switch (direction) {
+		case BlockDirection.Up: 
+			tmpBV.y += 1;
+			return tmpBV;
+		case BlockDirection.Down: 
+			tmpBV.y -= 1;
+			return tmpBV;
+		case BlockDirection.Right: 
+			tmpBV.x += 1;
+			return tmpBV;
+		case BlockDirection.Left: 
+			tmpBV.x -= 1;
+			return tmpBV;
+		case BlockDirection.Forward: 
+			tmpBV.z += 1;
+			return tmpBV;
+		case BlockDirection.Back: 
+			tmpBV.z -= 1;
+			return tmpBV;
+		}
+		return tmpBV;
+	}
+
+	public ISSCBlockVector ClosestEmptyBlock(ISSCBlockVector position){
+		for (int i = 0; i < 6; i++) {
+			if(IsNearByEmpty(position,(BlockDirection)i)){
+				return GetBlockNearBy(position,(BlockDirection)i);
+			}
+		}
+
+		return position;
+	}
+
 	//Get Blocks' Position In A Cube Zone Between Position1 And Position2
 	public ISSCBlockVector[] BlocksOverlapCube (ISSCBlockVector position1, ISSCBlockVector position2)
 	{
@@ -284,9 +321,17 @@ public class ISSCBGrid : Object
 	public static Vector3 GridPositionToWorldPosition (ISSCBlockVector position, Vector3 gridOriginInWorld)
 	{
 		return new Vector3 (gridOriginInWorld.x + position.x * ISSC_BLOCK_UNIT_SIZE,
-			gridOriginInWorld.y + position.y * ISSC_BLOCK_UNIT_SIZE,
-			gridOriginInWorld.z + position.z * ISSC_BLOCK_UNIT_SIZE);
+							gridOriginInWorld.y + position.y * ISSC_BLOCK_UNIT_SIZE,
+							gridOriginInWorld.z + position.z * ISSC_BLOCK_UNIT_SIZE);
 	
+	}
+
+	public static ISSCBlockVector WorldPositionToGridPosition (Vector3 position, Vector3 gridOriginInWorld)
+	{
+		float f = ISSC_BLOCK_UNIT_SIZE;
+		ISSCBlockVector v = new ISSCBlockVector (gridOriginInWorld.x + position.x / f, gridOriginInWorld.y + position.y / f, gridOriginInWorld.z + position.z / f);
+
+		return v;
 	}
 }
 

@@ -5,6 +5,7 @@ public class ISSCBGridController : MonoBehaviour
 {
 
 	public ISSCBGridDescriber grid;
+	public bool updateDataEachFrame;
 
 	ISSCBGrid gridData;
 	int currentVersion = 0;
@@ -21,14 +22,18 @@ public class ISSCBGridController : MonoBehaviour
 		int length = gridData.gridSize.Length ();
 		blockObjects = new GameObject[length];
 		versionDataCache = new int[length];
-		
-//		ApplyDataToScene();
-		test ();
 	}
 
 	void Update(){
+		if(updateDataEachFrame) UpdateSceneWithData ();
+		//testSetRandomBlock ();
+	}
+
+	public void SwitchData(ISSCBGrid newDataSet){
+		gridData = newDataSet;
+		currentVersion = 0;
 		UpdateSceneWithData ();
-		testSetRandomBlock ();
+		Debug.Log("data switched...");
 	}
 
 	void UpdateSceneWithData ()
@@ -62,7 +67,7 @@ public class ISSCBGridController : MonoBehaviour
 	
 	public void test ()
 	{
-		ISSCGridPrimitiveShapeUtilities.CreateSphere (gridData, new ISSCBlockVector(0,0,0), 2, 9);
+		ISSCGridPrimitiveShapeUtilities.CreateSphere (gridData, gridData.GetCenterBlock(), 2, 9);
 //		ISSCGridPrimitiveShapeUtilities.CreateCylinder (gridData, 2, gridData.GetCenterBlock (), 5, 9);
 	}
 
